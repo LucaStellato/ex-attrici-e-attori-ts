@@ -94,3 +94,31 @@ async function getActress(id: number): Promise<Actress | null> {
     }
 }
 
+
+/*
+Milestone 4
+Crea una funzione getAllActresses che chiama:
+
+GET /actresses
+La funzione deve restituire un array di oggetti Actress.
+
+Può essere anche un array vuoto.
+*/
+
+
+async function getAllActress(): Promise<Actress[]> {
+    try {
+        const response = await fetch(`http://localhost:3333/actresses`)
+        const dati: unknown = await response.json()
+        if (!(dati instanceof Array)) {
+            throw new Error('dati non validi')
+        }
+        const actressvalid: Actress[] = dati.filter(a => isActress(a))
+        return actressvalid
+    } catch (error) {
+        console.error('errore generico', error)
+        return []
+    }
+}
+
+
